@@ -3,4 +3,4 @@ Exercise and Report
 
 Requirement file
 
-Python script and deliiverable pdf
+Python script and deliverable pdf
