@@ -5,12 +5,7 @@ There are some minor modifications on the code to fitting the project
 
 
 from keras.models import Model
-from keras.layers.core import Dense, Dropout, Activation
-from keras.layers.convolutional import Conv2D
-from keras.layers.pooling import AveragePooling2D
-from keras.layers.pooling import GlobalAveragePooling2D
-from keras.layers import Input, Concatenate
-from keras.layers.normalization import BatchNormalization
+from keras.layers import *
 from keras.regularizers import l2
 import keras.backend as K
 
@@ -187,7 +182,13 @@ def DenseNet(nb_classes, img_dim, depth, nb_dense_block, growth_rate,
                            gamma_regularizer=l2(weight_decay),
                            beta_regularizer=l2(weight_decay))(x)
     x = Activation('relu')(x)
-    x = GlobalAveragePooling2D(data_format=K.image_data_format())(x)
+    #x = GlobalAveragePooling2D(data_format=K.image_data_format())(x)
+    x = AveragePooling2D((2, 2), strides=(2, 2))(x)
+    x = Flatten()(x)
+    x = Dense(512)(x)
+    x = BatchNormalization()(x)
+    x = Activation("relu")(x)
+    x = Dropout(0.4)(x)
     x = Dense(nb_classes,
               activation='sigmoid',
               kernel_regularizer=l2(weight_decay),
