@@ -131,7 +131,7 @@ def denseblock_altern(x, nb_layers, nb_filter, growth_rate,
     return x, nb_filter
 
 
-def DenseNet(nb_classes, img_dim, depth, nb_dense_block, growth_rate,
+def DenseNet(nb_classes, img_dim, nb_layers, nb_dense_block, growth_rate,
              nb_filter, dropout_rate=None, weight_decay=1E-4):
     """ Build the DenseNet model
 
@@ -151,10 +151,6 @@ def DenseNet(nb_classes, img_dim, depth, nb_dense_block, growth_rate,
 
     model_input = Input(shape=img_dim)
 
-    assert (depth - 4) % 3 == 0, "Depth must be 3 N + 4"
-
-    # layers in each dense block
-    nb_layers = int((depth - 4) / 3)
 
     # Initial convolution
     x = Conv2D(nb_filter, (3, 3),
